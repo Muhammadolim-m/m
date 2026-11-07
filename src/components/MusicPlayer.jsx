@@ -83,7 +83,7 @@ const MusicPlayer = ({ shouldPlay, onToggle }) => {
         ref={audioRef}
         src={musicFile}
         loop
-        preload="auto"
+        preload="none"
       />
 
       <div className="music-player-inner">

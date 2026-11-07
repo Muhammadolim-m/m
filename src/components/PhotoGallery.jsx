@@ -235,7 +235,12 @@ const PhotoGallery = () => {
           >
             {/* Сама фотография */}
             <div className="tile-image-container">
-              <img src={item.img} alt={item.meta.title} loading="lazy" />
+              <img
+                src={item.img}
+                alt={item.meta.title}
+                loading="lazy"
+                decoding="async"
+              />
               <div className="tile-overlay-hint">
                 <span className="hint-pill">🔍 Увеличить</span>
               </div>
@@ -275,6 +280,7 @@ const PhotoGallery = () => {
                 autoPlay
                 playsInline
                 muted
+                preload="none"
                 className="romantic-video-element"
                 aria-label="Особенный памятный момент"
               />
@@ -342,6 +348,8 @@ const PhotoGallery = () => {
                 src={selectedPhoto.img}
                 alt={selectedPhoto.meta.title}
                 className="lightbox-display-img"
+                loading="lazy"
+                decoding="async"
               />
               <span className="lightbox-counter">
                 {selectedIndex + 1} / {photoItems.length}

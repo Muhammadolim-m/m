@@ -14,14 +14,16 @@ function App() {
   const [shouldPlayMusic, setShouldPlayMusic] = useState(false);
   const [burstCount, setBurstCount] = useState(0);
 
-  // Инициализация библиотеки AOS (Animate On Scroll)
+  // Инициализация библиотеки AOS (Animate On Scroll) с оптимизацией производительности
   useEffect(() => {
     AOS.init({
-      duration: 850,
+      duration: 650,
       easing: 'ease-out-cubic',
-      once: false,
-      mirror: true,
-      offset: 50,
+      once: true,
+      mirror: false,
+      offset: 40,
+      throttleDelay: 99,
+      debounceDelay: 50,
     });
   }, []);
 

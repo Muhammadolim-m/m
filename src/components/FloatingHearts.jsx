@@ -22,11 +22,11 @@ const FloatingHearts = ({ triggerBurst }) => {
   const mouseRef = useRef({ x: -1000, y: -1000, active: false });
   const animFrameIdRef = useRef(null);
 
-  // Helper: Draw a smooth vector heart on canvas
+  // Helper: Draw a smooth vector heart on canvas (Ultra-fast, hardware accelerated)
   const drawHeart = (ctx, x, y, size, color, alpha, rotation = 0) => {
     ctx.save();
     ctx.translate(x, y);
-    ctx.rotate((rotation * Math.PI) / 180);
+    if (rotation !== 0) ctx.rotate((rotation * Math.PI) / 180);
     ctx.beginPath();
     const topCurveHeight = size * 0.32;
     ctx.moveTo(0, topCurveHeight);
@@ -45,8 +45,6 @@ const FloatingHearts = ({ triggerBurst }) => {
     ctx.closePath();
 
     ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
-    ctx.shadowColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${Math.min(alpha * 0.7, 0.45)})`;
-    ctx.shadowBlur = size * 0.4;
     ctx.fill();
     ctx.restore();
   };
@@ -55,7 +53,7 @@ const FloatingHearts = ({ triggerBurst }) => {
   const drawPetal = (ctx, x, y, size, color, alpha, rotation = 0) => {
     ctx.save();
     ctx.translate(x, y);
-    ctx.rotate((rotation * Math.PI) / 180);
+    if (rotation !== 0) ctx.rotate((rotation * Math.PI) / 180);
     ctx.beginPath();
     ctx.moveTo(0, -size);
     ctx.bezierCurveTo(size * 0.7, -size * 0.55, size * 0.7, size * 0.65, 0, size);
@@ -63,8 +61,6 @@ const FloatingHearts = ({ triggerBurst }) => {
     ctx.closePath();
 
     ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
-    ctx.shadowColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${Math.min(alpha * 0.5, 0.3)})`;
-    ctx.shadowBlur = size * 0.35;
     ctx.fill();
     ctx.restore();
   };
@@ -76,12 +72,10 @@ const FloatingHearts = ({ triggerBurst }) => {
     ctx.beginPath();
     ctx.arc(0, 0, size * 0.35, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
-    ctx.shadowColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.9})`;
-    ctx.shadowBlur = size * 1.5;
     ctx.fill();
 
     // 4-point subtle star spikes
-    ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.8})`;
+    ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.7})`;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(-size, 0); ctx.lineTo(size, 0);
@@ -95,51 +89,53 @@ const FloatingHearts = ({ triggerBurst }) => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { alpha: true });
 
-    let dpr = window.devicePixelRatio || 1;
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     let width = window.innerWidth;
     let height = window.innerHeight;
 
     const resizeCanvas = () => {
-      dpr = window.devicePixelRatio || 1;
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       width = window.innerWidth;
       height = window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
     };
 
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    // Populate ambient particles
-    const count = Math.min(Math.floor(width / 24), 55);
+    // Populate ambient particles (lightweight & fluid)
+    const isMobile = width < 768;
+    const count = isMobile ? 18 : 28;
     elementsRef.current = Array.from({ length: count }, (_, i) => {
       const typeChoice = i % 3; // 0 = heart, 1 = petal, 2 = sparkle
       return {
         type: typeChoice === 0 ? 'heart' : typeChoice === 1 ? 'petal' : 'sparkle',
         x: Math.random() * width,
         y: Math.random() * height,
-        size: typeChoice === 2 ? Math.random() * 4 + 2 : Math.random() * 14 + 8,
-        speedY: typeChoice === 1 ? Math.random() * 0.5 + 0.3 : -(Math.random() * 0.6 + 0.3),
-        speedX: (Math.random() - 0.5) * 0.3,
+        size: typeChoice === 2 ? Math.random() * 4 + 2 : Math.random() * 12 + 7,
+        speedY: typeChoice === 1 ? Math.random() * 0.4 + 0.25 : -(Math.random() * 0.5 + 0.25),
+        speedX: (Math.random() - 0.5) * 0.25,
         swaySpeed: Math.random() * 0.015 + 0.008,
         swayDist: Math.random() * 2 + 1,
         swayOffset: Math.random() * Math.PI * 2,
         opacity: Math.random() * 0.45 + 0.18,
         rotation: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 0.6,
+        rotSpeed: (Math.random() - 0.5) * 0.5,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         pulse: Math.random() * Math.PI,
       };
     });
 
     // Helper: spawn explosion of particles
-    const spawnBurst = (x, y, count = 28) => {
+    const spawnBurst = (x, y, count = 16) => {
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 4.5 + 1.2;
+        const speed = Math.random() * 3.8 + 1.2;
         const typeChoice = Math.random() > 0.4 ? 'heart' : 'sparkle';
         burstParticlesRef.current.push({
           type: typeChoice,
@@ -147,12 +143,12 @@ const FloatingHearts = ({ triggerBurst }) => {
           y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed - 1.2,
-          size: typeChoice === 'sparkle' ? Math.random() * 5 + 3 : Math.random() * 14 + 7,
+          size: typeChoice === 'sparkle' ? Math.random() * 4 + 2.5 : Math.random() * 12 + 6,
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
           alpha: 1,
-          decay: Math.random() * 0.018 + 0.009,
+          decay: Math.random() * 0.02 + 0.012,
           rotation: Math.random() * 360,
-          rotSpeed: (Math.random() - 0.5) * 8,
+          rotSpeed: (Math.random() - 0.5) * 6,
           gravity: 0.05,
         });
       }
@@ -160,14 +156,18 @@ const FloatingHearts = ({ triggerBurst }) => {
 
     // User touch or mouse interaction
     const handlePointerDown = (e) => {
-      // Avoid bursting if clicking an input, button, or link
-      if (e.target.closest('button') || e.target.closest('input') || e.target.closest('a') || e.target.closest('.romantic-video')) {
+      // Avoid bursting if clicking an interactive element
+      if (e.target.closest('button, input, a, .romantic-video-element, .lightbox-dialog')) {
         return;
       }
-      spawnBurst(e.clientX, e.clientY, 18);
+      spawnBurst(e.clientX, e.clientY, width < 768 ? 12 : 18);
     };
 
+    let lastMoveTime = 0;
     const handlePointerMove = (e) => {
+      const now = performance.now();
+      if (now - lastMoveTime < 32) return; // ~30fps throttle for cursor tracking
+      lastMoveTime = now;
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
       mouseRef.current.active = true;
@@ -177,9 +177,9 @@ const FloatingHearts = ({ triggerBurst }) => {
       mouseRef.current.active = false;
     };
 
-    window.addEventListener('pointerdown', handlePointerDown);
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerleave', handlePointerLeave);
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('pointerleave', handlePointerLeave, { passive: true });
 
     // Animation Loop
     let tick = 0;
@@ -283,22 +283,23 @@ const FloatingHearts = ({ triggerBurst }) => {
     if (!triggerBurst || !canvasRef.current) return;
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
+    const burstCount = window.innerWidth < 768 ? 16 : 24;
 
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < burstCount; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 5.5 + 2.0;
+      const speed = Math.random() * 4.2 + 1.8;
       burstParticlesRef.current.push({
         type: Math.random() > 0.4 ? 'heart' : 'sparkle',
-        x: centerX + (Math.random() - 0.5) * 120,
-        y: centerY + (Math.random() - 0.5) * 100,
+        x: centerX + (Math.random() - 0.5) * 80,
+        y: centerY + (Math.random() - 0.5) * 60,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1.8,
-        size: Math.random() * 15 + 8,
+        vy: Math.sin(angle) * speed - 1.5,
+        size: Math.random() * 12 + 7,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         alpha: 1,
-        decay: Math.random() * 0.014 + 0.008,
+        decay: Math.random() * 0.018 + 0.01,
         rotation: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 10,
+        rotSpeed: (Math.random() - 0.5) * 8,
         gravity: 0.05,
       });
     }
