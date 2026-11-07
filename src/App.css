@@ -1,0 +1,2037 @@
+/* ========================================================
+   LOVE LETTER - Master Stylesheet
+   Design Philosophy: Romantic, Minimalist, Elegant, Editorial Luxury
+   ======================================================== */
+
+/* ========================================================
+   1. APP ROOT & AMBIENT ATMOSPHERE
+   ======================================================== */
+.romantic-app-root {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: radial-gradient(ellipse at 50% 10%, #200d24 0%, #140818 36%, #0d0411 70%, #050107 100%);
+  overflow-x: hidden;
+  padding: 30px 20px 40px;
+}
+
+/* Canvas for Floating Hearts & Petals */
+.floating-hearts-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient Candlelight & Radial Glow Layers */
+.ambient-radial-glow {
+  position: fixed;
+  pointer-events: none;
+  filter: blur(80px);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.ambient-radial-glow.glow-primary {
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 70vh;
+  max-width: 950px;
+  background: radial-gradient(circle, rgba(235, 140, 175, 0.22) 0%, rgba(215, 180, 105, 0.14) 48%, transparent 75%);
+  animation: ambientBreathe 10s ease-in-out infinite alternate;
+}
+
+.ambient-radial-glow.glow-secondary {
+  bottom: 8%;
+  right: 12%;
+  width: 55vw;
+  height: 50vh;
+  background: radial-gradient(circle, rgba(214, 74, 105, 0.16) 0%, rgba(138, 43, 226, 0.08) 50%, transparent 70%);
+  animation: ambientBreathe 12s ease-in-out infinite alternate-reverse;
+}
+
+.ambient-radial-glow.glow-tertiary {
+  top: 55%;
+  left: 10%;
+  width: 45vw;
+  height: 45vh;
+  background: radial-gradient(circle, rgba(245, 226, 185, 0.12) 0%, transparent 65%);
+  animation: ambientBreathe 14s ease-in-out infinite alternate;
+}
+
+@keyframes ambientBreathe {
+  0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.7; }
+  50% { transform: translate(-48%, -52%) scale(1.05); opacity: 0.95; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; }
+}
+
+/* Cinematic Edge Vignette */
+.ambient-vignette {
+  position: fixed;
+  inset: 0;
+  box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.75);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Main Content Stage */
+.romantic-main-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 880px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0 20px;
+}
+
+/* Elegant Romantic Footer */
+.romantic-footer {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: rgba(245, 215, 228, 0.75);
+  letter-spacing: 0.5px;
+  padding-top: 30px;
+}
+
+.romantic-footer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.romantic-footer .heart-pulse {
+  display: inline-block;
+  font-size: 1.1rem;
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.16); }
+  40% { transform: scale(0.96); }
+  60% { transform: scale(1.1); }
+}
+
+/* ========================================================
+   2. FLOATING ROMANTIC MUSIC PLAYER CONTROLLER
+   ======================================================== */
+.music-player-widget {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  transition: all 0.35s var(--ease-spring);
+}
+
+.music-player-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(25, 9, 26, 0.9);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255, 215, 120, 0.55);
+  border-radius: 40px;
+  padding: 8px 18px 8px 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(220, 60, 110, 0.25);
+  transition: all 0.3s ease;
+}
+
+.music-player-widget:hover .music-player-inner {
+  border-color: rgba(255, 230, 150, 0.9);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 215, 120, 0.4);
+}
+
+.music-player-widget.is-playing .music-player-inner {
+  border-color: rgba(255, 215, 120, 0.85);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 30px rgba(235, 140, 175, 0.35);
+}
+
+/* Play/Pause Button */
+.music-play-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose-500) 0%, var(--rose-700) 100%);
+  color: var(--cream-soft);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 12px rgba(186, 50, 79, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.music-play-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(186, 50, 79, 0.6);
+  background: linear-gradient(135deg, var(--rose-400) 0%, var(--rose-600) 100%);
+}
+
+.music-play-btn:active {
+  transform: scale(0.94);
+}
+
+.btn-icon-play {
+  margin-left: 2px;
+}
+
+.btn-icon-pause {
+  font-size: 0.75rem;
+  letter-spacing: -1px;
+}
+
+/* Track Information & Equalizer */
+.music-track-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.music-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 16px;
+  width: 18px;
+}
+
+.eq-bar {
+  width: 2.5px;
+  background: linear-gradient(180deg, #ffd700 0%, #ff5376 100%);
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+  border-radius: 2px;
+  height: 3px;
+  transition: height 0.2s ease;
+}
+
+.eq-bar.active {
+  animation: bounceBar 0.9s ease-in-out infinite alternate;
+}
+
+.eq-bar.bar-1 { animation-delay: 0.1s; }
+.eq-bar.bar-2 { animation-delay: 0.35s; }
+.eq-bar.bar-3 { animation-delay: 0.2s; }
+.eq-bar.bar-4 { animation-delay: 0.45s; }
+
+@keyframes bounceBar {
+  0% { height: 4px; }
+  50% { height: 16px; }
+  100% { height: 7px; }
+}
+
+.music-labels {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cream-soft);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.track-status {
+  font-size: 0.68rem;
+  color: var(--blush-300);
+  white-space: nowrap;
+}
+
+/* Volume Group */
+.music-volume-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.music-mute-btn {
+  font-size: 0.85rem;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  color: var(--blush-200);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.music-mute-btn:hover {
+  transform: scale(1.15);
+  opacity: 1;
+}
+
+.volume-slider-wrapper {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+}
+
+.music-volume-group.expanded .volume-slider-wrapper,
+.volume-slider-wrapper:focus-within {
+  width: 65px;
+}
+
+/* Custom Rose-Gold Volume Slider */
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  box-shadow: 0 0 8px rgba(223, 194, 126, 0.8);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  background: var(--gold-300);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  border: none;
+  cursor: pointer;
+}
+
+/* ========================================================
+   3. CLOSED / OPENING ENVELOPE SECTION
+   ======================================================== */
+.closed-envelope-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  animation: envelopeFadeEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes envelopeFadeEntrance {
+  0% { opacity: 0; transform: translateY(30px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.closed-envelope-section.is-folding {
+  animation: envelopeFadeEntrance 0.6s reverse forwards;
+}
+
+/* Sparkle Invitation Tag */
+.envelope-invitation {
+  margin-bottom: 24px;
+}
+
+.sparkle-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(245, 218, 140, 0.65);
+  border-radius: 30px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--gold-300);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(245, 218, 140, 0.2);
+}
+
+.sparkle-icon {
+  font-size: 0.95rem;
+  color: var(--gold-bright);
+}
+
+.envelope-main-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 7.5vw, 4.4rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #ffe9b8 35%, #f5cb6c 70%, #fff2d6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 20px rgba(220, 160, 80, 0.35));
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.envelope-sub-text {
+  font-family: var(--font-editorial);
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #fae4ee;
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.55;
+  font-weight: 400;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* 3D Interactive Envelope Container */
+.envelope-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 26px 10px;
+  perspective: 1200px;
+  width: 100%;
+}
+
+.envelope-box {
+  position: relative;
+  width: 390px;
+  height: 250px;
+  background: linear-gradient(140deg, #871c36 0%, #631026 45%, #3d0514 100%);
+  border-radius: 14px;
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(220, 60, 105, 0.35),
+    inset 0 0 20px rgba(255, 220, 130, 0.2);
+  border: 2px solid rgba(250, 222, 140, 0.75);
+  transition: transform 0.5s var(--ease-spring), box-shadow 0.5s ease;
+  animation: envelopeHoverFloat 4s ease-in-out infinite alternate;
+  overflow: visible;
+}
+
+.envelope-container:hover .envelope-box {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 
+    0 35px 85px rgba(0, 0, 0, 0.85),
+    0 0 60px rgba(235, 140, 175, 0.5),
+    inset 0 0 25px rgba(255, 230, 150, 0.35);
+  border-color: rgba(255, 230, 160, 1);
+}
+
+@keyframes envelopeHoverFloat {
+  0% { transform: translateY(0px) rotate(-0.3deg); }
+  100% { transform: translateY(-12px) rotate(0.4deg); }
+}
+
+/* Envelope Back Plate */
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: #4c0c1b;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* Sneak Letter Peek (Slides Upwards on opening) */
+.envelope-letter-sneak {
+  position: absolute;
+  top: 25px;
+  left: 28px;
+  right: 28px;
+  height: 105px;
+  background: linear-gradient(135deg, #fefcf9 0%, #faf4ea 100%);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--parchment-edge);
+}
+
+.sneak-line {
+  height: 3px;
+  background: rgba(120, 52, 70, 0.18);
+  border-radius: 2px;
+}
+.sneak-line.long { width: 85%; }
+.sneak-line.medium { width: 70%; }
+.sneak-line.short { width: 50%; }
+
+.sneak-seal-badge {
+  align-self: flex-end;
+  font-size: 1.2rem;
+  margin-top: 2px;
+}
+
+/* 3D Top Flap (Triangular Fold) */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 190px solid transparent;
+  border-right: 190px solid transparent;
+  border-top: 135px solid #6b2b3b;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+  z-index: 5;
+  transform-origin: top;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.3s;
+}
+
+/* When Unsealing: 3D Open Flap and Slide Letter Up */
+.closed-envelope-section.is-unsealing .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.closed-envelope-section.is-unsealing .envelope-letter-sneak {
+  transform: translateY(-90px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Envelope Pockets (Bottom & Sides) */
+.envelope-pocket-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 190px solid #582130;
+  border-top: 122px solid transparent;
+  border-bottom: 122px solid transparent;
+  z-index: 3;
+}
+
+.envelope-pocket-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-right: 190px solid #521e2d;
+  border-top: 122px solid transparent;
+  border-bottom: 122px solid transparent;
+  z-index: 3;
+}
+
+.envelope-pocket-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 190px solid transparent;
+  border-right: 190px solid transparent;
+  border-bottom: 135px solid #481826;
+  z-index: 4;
+}
+
+/* Authentic Embossed Wax Seal */
+.wax-seal {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 62px;
+  height: 62px;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.4s var(--ease-spring), opacity 0.3s ease;
+}
+
+.wax-seal-outer-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(223, 194, 126, 0.5);
+  animation: sealHaloPulse 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes sealHaloPulse {
+  0% { transform: scale(0.92); opacity: 0.9; }
+  100% { transform: scale(1.45); opacity: 0; }
+}
+
+.wax-seal-body {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #bd2c4e 0%, #8c1737 55%, #520a1c 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), inset 0 2px 5px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 215, 120, 0.4);
+  border: 2px solid rgba(255, 225, 140, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.envelope-container:hover .wax-seal-body {
+  transform: scale(1.1);
+  box-shadow: 0 12px 30px rgba(186, 40, 75, 0.75), 0 0 25px rgba(255, 220, 130, 0.6);
+}
+
+.wax-seal-inner-emboss {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px dashed rgba(244, 226, 185, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seal-emblem {
+  font-size: 1.45rem;
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.closed-envelope-section.is-unsealing .wax-seal {
+  transform: translate(-50%, -50%) scale(1.35);
+  opacity: 0;
+}
+
+/* Vintage Postage Stamp with Cancellation Postmark */
+.envelope-stamp-card {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 50px;
+  height: 58px;
+  background: var(--cream-soft);
+  border-radius: 3px;
+  z-index: 6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transform: rotate(3deg);
+  border: 1.5px dashed var(--rose-400);
+  padding: 2px;
+}
+
+.stamp-perforations {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: var(--cream-ivory);
+}
+
+.stamp-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.stamp-text {
+  font-size: 0.52rem;
+  font-weight: 800;
+  color: var(--rose-600);
+  letter-spacing: 0.8px;
+  margin-top: 3px;
+}
+
+.stamp-postmark-wavy {
+  position: absolute;
+  inset: -6px -12px;
+  border-bottom: 1.5px solid rgba(80, 20, 35, 0.4);
+  transform: rotate(-15deg);
+  pointer-events: none;
+}
+
+/* Handwritten Envelope Address Details */
+.envelope-calligraphy-label {
+  position: absolute;
+  bottom: 14px;
+  left: 20px;
+  text-align: left;
+  z-index: 6;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  color: #f7e6ec;
+  line-height: 1.45;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+.label-to, .label-from {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.label-prefix {
+  font-size: 0.74rem;
+  color: var(--blush-300);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recipient-name {
+  font-weight: 600;
+  color: var(--gold-300);
+}
+
+.sender-note {
+  font-weight: 500;
+  color: var(--cream-soft);
+}
+
+/* Glowing Open Letter CTA Button */
+.open-letter-cta {
+  position: relative;
+  margin-top: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #c02852 0%, #911639 50%, #690a23 100%);
+  color: #ffffff;
+  padding: 16px 38px;
+  border-radius: 40px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  box-shadow: 
+    0 10px 35px rgba(192, 40, 82, 0.55),
+    0 0 30px rgba(255, 215, 120, 0.45),
+    inset 0 1px 3px rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 225, 140, 0.85);
+  overflow: hidden;
+  transition: all 0.35s var(--ease-spring);
+  cursor: pointer;
+}
+
+.open-letter-cta:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 16px 45px rgba(192, 40, 82, 0.75),
+    0 0 40px rgba(255, 220, 130, 0.65),
+    inset 0 1px 4px rgba(255, 255, 255, 0.6);
+  background: linear-gradient(135deg, #d63360 0%, #a61a42 50%, #7d0d2a 100%);
+  border-color: rgba(255, 240, 180, 1);
+}
+
+.open-letter-cta:active {
+  transform: scale(0.97);
+}
+
+.cta-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-25deg);
+  animation: shimmerMove 3.5s infinite;
+}
+
+@keyframes shimmerMove {
+  0% { left: -100%; }
+  35%, 100% { left: 160%; }
+}
+
+.cta-icon {
+  font-size: 1.25rem;
+}
+
+/* ========================================================
+   4. READING LETTER STAGE (PARCHMENT DOCUMENT)
+   ======================================================== */
+.opened-letter-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  animation: parchmentReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes parchmentReveal {
+  0% { opacity: 0; transform: translateY(40px) scale(0.94); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.letter-paper-wrapper {
+  width: 100%;
+  max-width: 780px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+
+/* The Authentic Digital Parchment Paper */
+.parchment-document {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #ffffff 0%, #faf6ec 45%, #f5ece0 100%);
+  color: var(--text-dark);
+  border-radius: 22px;
+  padding: 62px 54px;
+  box-shadow: 
+    inset 0 0 70px rgba(190, 155, 110, 0.16),
+    0 32px 90px rgba(0, 0, 0, 0.78),
+    0 0 60px rgba(214, 74, 105, 0.28);
+  border: 2px solid rgba(212, 175, 80, 0.75);
+}
+
+/* Inner Gilded Frame */
+.parchment-border-frame {
+  position: absolute;
+  inset: 14px;
+  border: 1.5px solid rgba(212, 175, 80, 0.75);
+  outline: 1px dashed rgba(212, 175, 80, 0.4);
+  outline-offset: 4px;
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+/* Vintage Gilded Corner Filigree Ornaments */
+.filigree-corner {
+  position: absolute;
+  font-size: 2.2rem;
+  color: #d4a017;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(180, 130, 50, 0.35));
+}
+
+.filigree-corner.top-left { top: 20px; left: 20px; }
+.filigree-corner.top-right { top: 20px; right: 20px; transform: scaleX(-1); }
+.filigree-corner.bottom-left { bottom: 20px; left: 20px; transform: scaleY(-1); }
+.filigree-corner.bottom-right { bottom: 20px; right: 20px; transform: scale(-1); }
+
+/* Letter Header */
+.letter-header {
+  text-align: center;
+  margin-bottom: 34px;
+  position: relative;
+}
+
+.letter-botanical-crown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.crown-sparkle {
+  color: var(--gold-bright);
+  animation: gentlePulse 2s infinite;
+}
+
+.letter-salutation {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  font-weight: 700;
+  color: #741126;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  text-shadow: 0 1px 3px rgba(116, 17, 38, 0.2);
+}
+
+.letter-subheading {
+  font-family: var(--font-editorial);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #a8792a;
+  margin-top: 6px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.letter-gold-flourish {
+  width: 160px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #e5b95a 50%, transparent);
+  margin: 16px auto 0;
+}
+
+/* Letter Body Content */
+.letter-body-content {
+  font-family: var(--font-serif);
+  font-size: 1.22rem;
+  line-height: 2.1;
+  color: #240e1b;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.letter-para {
+  margin-bottom: 24px;
+  text-indent: 32px;
+}
+
+.letter-para.lead-para {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #610d21;
+  font-weight: 500;
+}
+
+.letter-para.lead-para::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.6rem;
+  float: left;
+  line-height: 0.85;
+  padding: 6px 12px 2px 0;
+  color: #99213b;
+  font-weight: 700;
+  text-shadow: 0 2px 6px rgba(153, 33, 59, 0.25);
+}
+
+/* Elegant Romantic Quote Box */
+.letter-quote-container {
+  position: relative;
+  background: rgba(245, 215, 228, 0.45);
+  border-left: 3px solid var(--rose-500);
+  border-right: 3px solid var(--rose-500);
+  padding: 22px 34px;
+  margin: 30px 0;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.quote-mark {
+  font-size: 2.2rem;
+  color: var(--rose-400);
+  font-family: serif;
+  line-height: 1;
+}
+
+.quote-verse {
+  font-family: var(--font-script);
+  font-size: 1.75rem;
+  color: var(--rose-700);
+  line-height: 1.5;
+  margin: 8px 0;
+  font-weight: 600;
+}
+
+.letter-closing-wish {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: #8c1834;
+  text-align: center;
+  text-indent: 0;
+  margin-top: 34px;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 3px rgba(140, 24, 52, 0.15);
+}
+
+/* Letter Footer & Postmark Seal */
+.letter-footer-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px dashed rgba(194, 157, 80, 0.5);
+}
+
+.postmark-seal-circle {
+  width: 72px;
+  height: 72px;
+  border: 2px solid var(--rose-500);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-8deg);
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.postmark-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.postmark-text {
+  font-size: 0.46rem;
+  font-weight: 800;
+  color: var(--rose-600);
+  letter-spacing: 0.6px;
+  margin-top: 2px;
+}
+
+.letter-signature-block {
+  text-align: right;
+}
+
+.sig-prelude {
+  font-family: var(--font-editorial);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.sig-author {
+  font-family: var(--font-calligraphy);
+  font-size: 2.1rem;
+  color: var(--rose-700);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Interactive Action Bar inside Letter */
+.letter-interactive-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 42px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(194, 157, 80, 0.4);
+}
+
+.interactive-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 28px;
+  border-radius: 30px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s var(--ease-spring);
+  cursor: pointer;
+}
+
+.interactive-btn:hover {
+  transform: translateY(-3px);
+}
+
+.interactive-btn:active {
+  transform: scale(0.97);
+}
+
+/* Gallery Toggle Button */
+.gallery-toggle-btn {
+  background: linear-gradient(135deg, #a82444 0%, #871833 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(244, 226, 185, 0.5);
+  box-shadow: 0 8px 24px rgba(135, 24, 51, 0.35);
+}
+
+.gallery-toggle-btn:hover,
+.gallery-toggle-btn.is-active {
+  background: linear-gradient(135deg, #bf2d50 0%, #9e1c3c 100%);
+  box-shadow: 0 10px 28px rgba(191, 45, 80, 0.45), 0 0 20px rgba(244, 226, 185, 0.3);
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Close Letter Button */
+.close-fold-btn {
+  background: rgba(255, 255, 255, 0.92);
+  color: #522332;
+  border: 1.5px solid rgba(194, 157, 80, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.close-fold-btn:hover {
+  background: #f7ede0;
+  color: #2b0f19;
+  border-color: rgba(180, 130, 50, 0.7);
+  box-shadow: 0 8px 22px rgba(180, 130, 50, 0.2);
+}
+
+.btn-icon-symbol {
+  font-size: 1.15rem;
+}
+
+/* Drawer for Photo Gallery */
+.gallery-slide-drawer {
+  width: 100%;
+  animation: drawerSlideDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes drawerSlideDown {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================================
+   5. PHOTO GALLERY & POLAROIDS SECTION
+   ======================================================== */
+.photo-gallery-section {
+  width: 100%;
+  background: rgba(28, 14, 22, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 42px 32px;
+  border: 1px solid rgba(223, 162, 180, 0.28);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.gallery-botanical-divider {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 1.35rem;
+  margin-bottom: 8px;
+}
+
+.divider-sparkle {
+  color: var(--gold-400);
+}
+
+.gallery-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3.8vw, 2.2rem);
+  font-weight: 600;
+  color: var(--cream-soft);
+  text-shadow: 0 2px 10px rgba(223, 136, 170, 0.35);
+  margin-bottom: 8px;
+}
+
+.gallery-subtitle {
+  font-family: var(--font-editorial);
+  font-size: 1.12rem;
+  font-style: italic;
+  color: rgba(245, 215, 228, 0.85);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* Polaroid Grid */
+.gallery-polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 28px;
+  justify-items: center;
+  margin-bottom: 40px;
+}
+
+.polaroid-card {
+  position: relative;
+  background: var(--cream-pure);
+  padding: 14px 14px 22px;
+  border-radius: 4px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  width: 100%;
+  max-width: 270px;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease;
+}
+
+/* Subtle Polaroid Natural Tilts */
+.polaroid-card:nth-child(1) { transform: rotate(-2.5deg); }
+.polaroid-card:nth-child(2) { transform: rotate(1.8deg); }
+.polaroid-card:nth-child(3) { transform: rotate(-1.5deg); }
+.polaroid-card:nth-child(4) { transform: rotate(2.4deg); }
+
+.polaroid-card:hover {
+  transform: translateY(-8px) scale(1.04) rotate(0deg) !important;
+  box-shadow: 0 22px 45px rgba(214, 74, 105, 0.3), 0 6px 16px rgba(0, 0, 0, 0.35);
+  z-index: 10;
+}
+
+/* Translucent Washi Tape Effect */
+.washi-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65px;
+  height: 20px;
+  background: rgba(244, 226, 185, 0.65);
+  backdrop-filter: blur(3px);
+  border-left: 2px dashed rgba(194, 157, 80, 0.4);
+  border-right: 2px dashed rgba(194, 157, 80, 0.4);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.polaroid-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #f7eef1;
+}
+
+.polaroid-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-smooth);
+}
+
+.polaroid-card:hover .polaroid-photo {
+  transform: scale(1.08);
+}
+
+.photo-sheen-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.polaroid-tag-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(120, 23, 44, 0.88);
+  backdrop-filter: blur(4px);
+  color: var(--cream-pure);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(223, 194, 126, 0.5);
+  letter-spacing: 0.3px;
+}
+
+.polaroid-meta-caption {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.polaroid-meta-caption h4 {
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  color: var(--rose-900);
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.polaroid-meta-caption p {
+  font-size: 0.8rem;
+  color: #7a4655;
+  line-height: 1.35;
+}
+
+/* Special Video Moment Wrapper */
+.video-moment-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed rgba(223, 162, 180, 0.3);
+}
+
+.romantic-video-toggle-btn {
+  background: linear-gradient(135deg, var(--rose-500), var(--rose-700));
+  color: var(--cream-pure);
+  padding: 13px 28px;
+  border-radius: 30px;
+  font-size: 0.96rem;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(186, 50, 79, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s var(--ease-spring);
+}
+
+.romantic-video-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(186, 50, 79, 0.55);
+  background: linear-gradient(135deg, var(--rose-400), var(--rose-600));
+}
+
+.video-player-container {
+  width: 100%;
+  max-width: 500px;
+  animation: videoFadeIn 0.5s ease-out;
+}
+
+@keyframes videoFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.video-frame-border {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65), 0 0 30px rgba(214, 74, 105, 0.25);
+  border: 2px solid var(--gold-400);
+  background: #000;
+}
+
+.romantic-video-element {
+  width: 100%;
+  display: block;
+  max-height: 400px;
+  background: #000;
+}
+
+.video-caption-label {
+  text-align: center;
+  padding: 12px;
+  font-size: 0.92rem;
+  color: var(--blush-200);
+  background: rgba(30, 12, 22, 0.9);
+  border-radius: 0 0 14px 14px;
+}
+
+/* ========================================================
+   6. LIGHTBOX MODAL DIALOG
+   ======================================================== */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 6, 11, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 24px;
+  animation: fadeInModal 0.25s ease-out;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-dialog {
+  position: relative;
+  background: var(--cream-pure);
+  border-radius: 18px;
+  max-width: 560px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(214, 74, 105, 0.3);
+  border: 2px solid var(--gold-400);
+  animation: scaleUpModal 0.3s var(--ease-spring);
+}
+
+@keyframes scaleUpModal {
+  from { transform: scale(0.88); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 1.15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.lightbox-close-btn:hover {
+  background: var(--rose-600);
+  transform: scale(1.1);
+}
+
+/* Nav Buttons */
+.lightbox-nav-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--rose-800);
+  font-size: 1.6rem;
+  font-weight: 300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s var(--ease-spring);
+}
+
+.lightbox-nav-btn:hover {
+  background: var(--rose-600);
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav-btn.prev { left: 14px; }
+.lightbox-nav-btn.next { right: 14px; }
+
+.lightbox-image-showcase {
+  position: relative;
+  width: 100%;
+  max-height: 420px;
+  background: #150810;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.lightbox-display-img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+.lightbox-counter {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 0.76rem;
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-details {
+  padding: 24px 28px;
+  color: var(--text-dark);
+}
+
+.lightbox-badge-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--blush-100);
+  color: var(--rose-700);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--blush-300);
+  margin-bottom: 8px;
+}
+
+.lightbox-title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  color: var(--rose-800);
+  margin-bottom: 4px;
+}
+
+.lightbox-subtitle {
+  font-family: var(--font-editorial);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--rose-600);
+  margin-bottom: 12px;
+}
+
+.lightbox-description {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #4a2835;
+}
+
+/* ========================================================
+   7. RESPONSIVE DESIGN (TABLETS & MOBILE SMARTPHONES)
+   ======================================================== */
+
+/* Tablets & Medium Screens (max-width: 860px) */
+@media (max-width: 860px) {
+  .romantic-app-root {
+    padding: 75px 16px 30px;
+  }
+
+  .letter-paper-wrapper {
+    max-width: 100%;
+  }
+
+  .parchment-document {
+    padding: 44px 32px;
+  }
+
+  .envelope-main-title {
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+  }
+}
+
+/* Standard Mobile Devices (max-width: 600px) */
+@media (max-width: 600px) {
+  .romantic-app-root {
+    padding: 70px 12px 25px;
+  }
+
+  /* Music Controller Mobile Optimization */
+  .music-player-widget {
+    top: 12px;
+    right: 12px;
+  }
+
+  .music-player-inner {
+    padding: 6px 14px 6px 8px;
+    gap: 8px;
+  }
+
+  .music-play-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .track-title {
+    font-size: 0.78rem;
+  }
+
+  .track-status {
+    font-size: 0.64rem;
+  }
+
+  .volume-slider-wrapper {
+    display: none; /* Hide slider by default on small mobile to save space */
+  }
+
+  /* Envelope Section Mobile */
+  .envelope-invitation {
+    margin-bottom: 18px;
+  }
+
+  .sparkle-tag {
+    font-size: 0.74rem;
+    padding: 4px 14px;
+    margin-bottom: 10px;
+  }
+
+  .envelope-main-title {
+    font-size: clamp(2.2rem, 10vw, 3rem);
+    margin-bottom: 6px;
+  }
+
+  .envelope-sub-text {
+    font-size: 1.05rem;
+    padding: 0 6px;
+  }
+
+  .envelope-container {
+    padding: 16px 4px;
+  }
+
+  /* Scaled Responsive Envelope (300px) */
+  .envelope-box {
+    width: 300px;
+    height: 200px;
+  }
+
+  .envelope-flap {
+    border-left-width: 150px;
+    border-right-width: 150px;
+    border-top-width: 110px;
+  }
+
+  .envelope-pocket-left,
+  .envelope-pocket-right {
+    border-left-width: 150px;
+    border-right-width: 150px;
+    border-top-width: 100px;
+    border-bottom-width: 100px;
+  }
+
+  .envelope-pocket-bottom {
+    border-left-width: 150px;
+    border-right-width: 150px;
+    border-bottom-width: 110px;
+  }
+
+  .envelope-letter-sneak {
+    left: 20px;
+    right: 20px;
+    height: 90px;
+  }
+
+  .wax-seal {
+    top: 98px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .wax-seal-inner-emboss {
+    width: 38px;
+    height: 38px;
+  }
+
+  .seal-emblem {
+    font-size: 1.25rem;
+  }
+
+  .envelope-stamp-card {
+    top: 10px;
+    right: 10px;
+    width: 42px;
+    height: 48px;
+  }
+
+  .stamp-icon {
+    font-size: 1.05rem;
+  }
+
+  .stamp-text {
+    font-size: 0.46rem;
+  }
+
+  .envelope-calligraphy-label {
+    bottom: 10px;
+    left: 14px;
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  .open-letter-cta {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 290px;
+    justify-content: center;
+    padding: 12px 22px;
+    font-size: 0.98rem;
+  }
+
+  /* Parchment Document on Mobile */
+  .parchment-document {
+    padding: 38px 20px 30px;
+    border-radius: 14px;
+  }
+
+  .filigree-corner {
+    font-size: 1.4rem;
+  }
+  .filigree-corner.top-left { top: 12px; left: 12px; }
+  .filigree-corner.top-right { top: 12px; right: 12px; }
+  .filigree-corner.bottom-left { bottom: 12px; left: 12px; }
+  .filigree-corner.bottom-right { bottom: 12px; right: 12px; }
+
+  .parchment-border-frame {
+    inset: 10px;
+  }
+
+  .letter-salutation {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+  }
+
+  .letter-subheading {
+    font-size: 1.15rem;
+  }
+
+  .letter-body-content {
+    font-size: 1.02rem;
+    line-height: 1.8;
+    text-align: left;
+    word-break: break-word;
+  }
+
+  .letter-para {
+    text-indent: 16px;
+    margin-bottom: 18px;
+  }
+
+  .letter-quote-container {
+    padding: 16px 18px;
+    margin: 22px 0;
+  }
+
+  .quote-verse {
+    font-size: 1.35rem;
+  }
+
+  .letter-closing-wish {
+    font-size: 1.12rem;
+    margin-top: 22px;
+  }
+
+  /* Letter Footer Mobile */
+  .letter-footer-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  .postmark-seal-circle {
+    width: 62px;
+    height: 62px;
+    transform: rotate(0deg);
+  }
+
+  .letter-signature-block {
+    text-align: center;
+  }
+
+  .sig-author {
+    font-size: 1.8rem;
+  }
+
+  /* Interactive Action Bar Mobile */
+  .letter-interactive-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 20px;
+  }
+
+  .interactive-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 18px;
+    font-size: 0.92rem;
+  }
+
+  /* Photo Gallery Section Mobile */
+  .photo-gallery-section {
+    padding: 26px 16px;
+    border-radius: 16px;
+  }
+
+  .gallery-polaroid-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .polaroid-card {
+    padding: 9px 9px 14px;
+  }
+
+  .polaroid-meta-caption h4 {
+    font-size: 0.88rem;
+  }
+
+  .polaroid-meta-caption p {
+    font-size: 0.72rem;
+  }
+
+  .romantic-video-toggle-btn {
+    width: 100%;
+    max-width: 290px;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  /* Lightbox Modal Mobile */
+  .lightbox-overlay {
+    padding: 12px;
+  }
+
+  .lightbox-dialog {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .lightbox-details {
+    padding: 18px 20px;
+  }
+
+  .lightbox-title {
+    font-size: 1.25rem;
+  }
+
+  .lightbox-nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
+}
+
+/* Small SmartPhones (max-width: 380px) */
+@media (max-width: 380px) {
+  .envelope-box {
+    width: 260px;
+    height: 175px;
+  }
+
+  .envelope-flap {
+    border-left-width: 130px;
+    border-right-width: 130px;
+    border-top-width: 95px;
+  }
+
+  .envelope-pocket-left,
+  .envelope-pocket-right {
+    border-left-width: 130px;
+    border-right-width: 130px;
+    border-top-width: 88px;
+    border-bottom-width: 88px;
+  }
+
+  .envelope-pocket-bottom {
+    border-left-width: 130px;
+    border-right-width: 130px;
+    border-bottom-width: 95px;
+  }
+
+  .wax-seal {
+    top: 86px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .wax-seal-inner-emboss {
+    width: 32px;
+    height: 32px;
+  }
+
+  .seal-emblem {
+    font-size: 1.1rem;
+  }
+
+  .envelope-calligraphy-label {
+    font-size: 0.7rem;
+    left: 10px;
+    bottom: 8px;
+  }
+
+  .gallery-polaroid-grid {
+    grid-template-columns: 1fr;
+    max-width: 240px;
+    margin: 0 auto 24px;
+  }
+
+  .parchment-document {
+    padding: 30px 14px 24px;
+  }
+
+  .letter-salutation {
+    font-size: 1.85rem;
+  }
+}
+
+
+/* ========================================================
+   ADDITIONS: opened background, poem, masonry gallery
+   ======================================================== */
+.opened-letter-section { position: relative; }
+.opened-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px) brightness(0.55) saturate(1.05);
+  transform: scale(1.05);
+  animation: bgFade 1.2s ease forwards;
+  pointer-events: none;
+}
+.opened-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(19, 7, 15, 0.45), rgba(19, 7, 15, 0.7));
+}
+@keyframes bgFade { from { opacity: 0; } to { opacity: 1; } }
+.letter-paper-wrapper { position: relative; z-index: 2; }
+
+.letter-poem {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 245, 248, 0.95) 0%, rgba(255, 238, 245, 0.8) 100%);
+  border: 2px solid rgba(212, 175, 80, 0.7);
+  border-radius: 14px;
+  padding: 28px 34px;
+  margin: 34px 0;
+  text-align: center;
+  box-shadow: 
+    0 8px 25px rgba(186, 50, 79, 0.12),
+    inset 0 0 20px rgba(255, 220, 130, 0.25);
+}
+.letter-poem .quote-mark {
+  position: absolute;
+  font-size: 2.6rem;
+  color: rgba(212, 175, 80, 0.5);
+  font-family: serif;
+  line-height: 1;
+}
+.letter-poem .quote-mark.left { top: 12px; left: 16px; }
+.letter-poem .quote-mark.right { bottom: 12px; right: 16px; }
+.poem-stanza { margin: 12px 0 18px; }
+.poem-stanza p {
+  font-family: var(--font-script);
+  font-size: 1.65rem;
+  line-height: 1.6;
+  color: #741126;
+  font-weight: 600;
+  text-indent: 0;
+  margin: 0;
+}
+
+/* ========================================================
+   7. ART-COLLECTION PHOTO GALLERY (WITH CAPTIONS UNDER PHOTOS)
+   ======================================================== */
+.gallery-masonry {
+  column-count: 3;
+  column-gap: 18px;
+  width: 100%;
+  margin: 32px 0 40px;
+}
+
+.masonry-tile {
+  display: block;
+  width: 100%;
+  margin: 0 0 24px;
+  padding: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  break-inside: avoid;
+  background: #ffffff;
+  border: 1.5px solid rgba(223, 194, 126, 0.6);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(214, 74, 105, 0.15);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  position: relative;
+  text-align: left;
+}
+
+.masonry-tile:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(235, 140, 175, 0.4);
+  border-color: rgba(255, 215, 120, 1);
+}
+
+.tile-image-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #1a0815;
+}
+
+.tile-image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.65s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.masonry-tile:hover .tile-image-container img {
+  transform: scale(1.08);
+}
+
+.tile-overlay-hint {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 10, 22, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  backdrop-filter: blur(2px);
+  transition: opacity 0.3s ease;
+}
+
+.masonry-tile:hover .tile-overlay-hint {
+  opacity: 1;
+}
+
+.hint-pill {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  color: #78172c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(6px);
+  transition: transform 0.3s ease;
+}
+
+.masonry-tile:hover .hint-pill {
+  transform: translateY(0);
+}
+
+/* Captions directly under every single photo */
+.tile-caption-card {
+  padding: 16px 18px 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #faf4ea 100%);
+  border-top: 1.5px solid rgba(223, 194, 126, 0.4);
+}
+
+.tile-badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #8c1933;
+  background: #fcecf2;
+  border: 1px solid #f3cbdb;
+  padding: 3px 11px;
+  border-radius: 14px;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.tile-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #3b0f1d;
+  margin: 2px 0 5px;
+  line-height: 1.3;
+}
+
+.tile-subtitle {
+  font-family: var(--font-editorial);
+  font-size: 1.02rem;
+  font-style: italic;
+  color: #6e4052;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.lightbox-counter {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+@media (max-width: 900px) {
+  .gallery-masonry { column-count: 2; column-gap: 14px; }
+}
+@media (max-width: 580px) {
+  .gallery-masonry { column-count: 1; margin: 20px 0; }
+  .tile-title { font-size: 1.05rem; }
+  .tile-subtitle { font-size: 0.9rem; }
+  .poem-stanza p { font-size: 1.25rem; }
+  .letter-poem { padding: 18px 16px; }
+}
+

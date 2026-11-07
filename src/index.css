@@ -1,0 +1,139 @@
+/* ========================================================
+   LOVE LETTER - Global Design System & Variables
+   Aesthetic: Romantic, Minimalist, Elegant, Premium
+   ======================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* --- Soft Romantic Palette --- */
+  --blush-50: #fdf7f9;
+  --blush-100: #faecf2;
+  --blush-200: #f5d7e4;
+  --blush-300: #edb5cc;
+  --blush-400: #df88aa;
+  --blush-500: #ce5d85;
+
+  /* --- Elegant Rose Red & Wine --- */
+  --rose-400: #d64a69;
+  --rose-500: #ba324f;
+  --rose-600: #99213b;
+  --rose-700: #78172c;
+  --rose-800: #570d1e;
+  --rose-900: #3a0813;
+
+  /* --- Cream White, Light Beige & Ivory --- */
+  --cream-pure: #ffffff;
+  --cream-soft: #fffdfa;
+  --cream-ivory: #faf5ed;
+  --beige-light: #f5ede1;
+  --beige-warm: #ece0ce;
+  --parchment-bg: #fcf9f2;
+  --parchment-edge: #ebdcc8;
+
+  /* --- Subtle Champagne Gold Accents --- */
+  --gold-300: #fae8ba;
+  --gold-400: #e8c97b;
+  --gold-500: #d4a948;
+  --gold-600: #b08428;
+  --gold-bright: #ffd700;
+  --gold-metallic: #d4af37;
+  --gold-shadow: rgba(212, 169, 72, 0.35);
+
+  /* --- Deep Ambient Backgrounds --- */
+  --bg-deep-plum: #1c0e24;
+  --bg-warm-night: #0e0514;
+  --bg-cashmere: #28122c;
+  --text-dark: #240e1b;
+  --text-muted: #6e4659;
+  --text-light: #fef0f6;
+  --text-pure: #ffffff;
+
+  /* --- High-End Typography --- */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-calligraphy: 'Great Vibes', 'Alex Brush', cursive;
+  --font-script: 'Dancing Script', 'Caveat', cursive;
+  --font-body: 'Montserrat', system-ui, -apple-system, sans-serif;
+
+  /* --- Shadows & Glows --- */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.18);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 35px rgba(223, 136, 170, 0.28);
+  --shadow-gold-glow: 0 0 25px rgba(223, 194, 126, 0.35);
+
+  /* --- Transitions --- */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--bg-warm-night);
+  color: var(--text-pure);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Soft Romantic Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-warm-night);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--blush-400), var(--rose-600));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rose-400);
+}
+
+/* Text Selection */
+::selection {
+  background: rgba(223, 136, 170, 0.45);
+  color: var(--cream-soft);
+}
+
+/* Button & Interactive Resets */
+button, input, select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  transition: all 0.25s var(--ease-soft);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 3px;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
