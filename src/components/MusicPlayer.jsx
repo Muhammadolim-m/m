@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import musicFile from '../audio/kel-yashaylik.mp3';
+import musicFile from '../audio/hammali-navai_-_a-esli-eto-lyubov.(обработан).mp3';
 
 /**
  * MusicPlayer - Премиальный плавающий романтический аудиоплеер
@@ -120,7 +120,7 @@ const MusicPlayer = ({ shouldPlay, onToggle }) => {
             <span className={`eq-bar bar-4 ${isPlaying ? 'active' : ''}`} />
           </div>
           <div className="music-labels">
-            <span className="track-title">Тохир Содиков — Kel Yashaylik</span>
+            <span className="track-title">HammAli & Navai — А если это любовь?</span>
             <span className="track-status">
               {isPlaying ? 'Романтическая мелодия любви ✨' : 'Нажмите, чтобы включить 🎶'}
             </span>

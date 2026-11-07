@@ -767,18 +767,40 @@
    4. READING LETTER STAGE (PARCHMENT DOCUMENT)
    ======================================================== */
 .opened-letter-section {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
   animation: parchmentReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes parchmentReveal {
-  0% { opacity: 0; transform: translateY(40px) scale(0.94); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+.opened-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px) brightness(0.55) saturate(1.05);
+  transform: scale(1.05);
+  animation: bgFade 1.2s ease forwards;
+  pointer-events: none;
+}
+
+.opened-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(19, 7, 15, 0.45), rgba(19, 7, 15, 0.7));
+}
+
+@keyframes bgFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .letter-paper-wrapper {
+  position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 780px;
   display: flex;
@@ -910,33 +932,42 @@
   text-shadow: 0 2px 6px rgba(153, 33, 59, 0.25);
 }
 
-/* Elegant Romantic Quote Box */
-.letter-quote-container {
+/* Elegant Romantic Poem Block */
+.letter-poem {
   position: relative;
-  background: rgba(245, 215, 228, 0.45);
-  border-left: 3px solid var(--rose-500);
-  border-right: 3px solid var(--rose-500);
-  padding: 22px 34px;
-  margin: 30px 0;
-  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 245, 248, 0.95) 0%, rgba(255, 238, 245, 0.8) 100%);
+  border: 2px solid rgba(212, 175, 80, 0.7);
+  border-radius: 14px;
+  padding: 28px 34px;
+  margin: 34px 0;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  box-shadow: 
+    0 8px 25px rgba(186, 50, 79, 0.12),
+    inset 0 0 20px rgba(255, 220, 130, 0.25);
 }
 
-.quote-mark {
-  font-size: 2.2rem;
-  color: var(--rose-400);
+.letter-poem .quote-mark {
+  position: absolute;
+  font-size: 2.6rem;
+  color: rgba(212, 175, 80, 0.5);
   font-family: serif;
   line-height: 1;
 }
 
-.quote-verse {
+.letter-poem .quote-mark.left { top: 12px; left: 16px; }
+.letter-poem .quote-mark.right { bottom: 12px; right: 16px; }
+
+.poem-stanza { margin: 12px 0 18px; }
+.poem-stanza:last-of-type { margin-bottom: 0; }
+
+.poem-stanza p {
   font-family: var(--font-script);
-  font-size: 1.75rem;
-  color: var(--rose-700);
-  line-height: 1.5;
-  margin: 8px 0;
+  font-size: 1.65rem;
+  line-height: 1.6;
+  color: #741126;
   font-weight: 600;
+  text-indent: 0;
+  margin: 0;
 }
 
 .letter-closing-wish {
@@ -1133,113 +1164,124 @@
   margin: 0 auto;
 }
 
-/* Polaroid Grid */
-.gallery-polaroid-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 28px;
-  justify-items: center;
-  margin-bottom: 40px;
-}
-
-.polaroid-card {
-  position: relative;
-  background: var(--cream-pure);
-  padding: 14px 14px 22px;
-  border-radius: 4px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
+/* Art-Collection Photo Gallery */
+.gallery-masonry {
+  column-count: 3;
+  column-gap: 18px;
   width: 100%;
-  max-width: 270px;
-  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease;
+  margin: 32px 0 40px;
 }
 
-/* Subtle Polaroid Natural Tilts */
-.polaroid-card:nth-child(1) { transform: rotate(-2.5deg); }
-.polaroid-card:nth-child(2) { transform: rotate(1.8deg); }
-.polaroid-card:nth-child(3) { transform: rotate(-1.5deg); }
-.polaroid-card:nth-child(4) { transform: rotate(2.4deg); }
-
-.polaroid-card:hover {
-  transform: translateY(-8px) scale(1.04) rotate(0deg) !important;
-  box-shadow: 0 22px 45px rgba(214, 74, 105, 0.3), 0 6px 16px rgba(0, 0, 0, 0.35);
-  z-index: 10;
-}
-
-/* Translucent Washi Tape Effect */
-.washi-tape {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 65px;
-  height: 20px;
-  background: rgba(244, 226, 185, 0.65);
-  backdrop-filter: blur(3px);
-  border-left: 2px dashed rgba(194, 157, 80, 0.4);
-  border-right: 2px dashed rgba(194, 157, 80, 0.4);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-}
-
-.polaroid-image-frame {
-  position: relative;
+.masonry-tile {
+  display: block;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  margin: 0 0 24px;
+  padding: 0;
+  border-radius: 18px;
   overflow: hidden;
-  border-radius: 2px;
-  background: #f7eef1;
+  cursor: pointer;
+  break-inside: avoid;
+  background: #ffffff;
+  border: 1.5px solid rgba(223, 194, 126, 0.6);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(214, 74, 105, 0.15);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  position: relative;
+  text-align: left;
 }
 
-.polaroid-photo {
+.masonry-tile:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.75), 0 0 35px rgba(235, 140, 175, 0.4);
+  border-color: rgba(255, 215, 120, 1);
+}
+
+.tile-image-container {
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s var(--ease-smooth);
+  overflow: hidden;
+  background: #1a0815;
 }
 
-.polaroid-card:hover .polaroid-photo {
-  transform: scale(1.08);
+.tile-image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.65s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.photo-sheen-sweep {
+.masonry-tile:hover .tile-image-container img {
+  transform: scale(1.07);
+}
+
+.tile-overlay-hint {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
-  pointer-events: none;
+  background: rgba(30, 10, 22, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  backdrop-filter: blur(2px);
+  transition: opacity 0.3s ease;
 }
 
-.polaroid-tag-badge {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: rgba(120, 23, 44, 0.88);
-  backdrop-filter: blur(4px);
-  color: var(--cream-pure);
-  font-size: 0.68rem;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 12px;
-  border: 1px solid rgba(223, 194, 126, 0.5);
+.masonry-tile:hover .tile-overlay-hint {
+  opacity: 1;
+}
+
+.hint-pill {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  color: #78172c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(6px);
+  transition: transform 0.3s ease;
+}
+
+.masonry-tile:hover .hint-pill {
+  transform: translateY(0);
+}
+
+/* Captions directly under every photo */
+.tile-caption-card {
+  padding: 16px 18px 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #faf4ea 100%);
+  border-top: 1.5px solid rgba(223, 194, 126, 0.4);
+}
+
+.tile-badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #8c1933;
+  background: #fcecf2;
+  border: 1px solid #f3cbdb;
+  padding: 3px 11px;
+  border-radius: 14px;
+  margin-bottom: 6px;
   letter-spacing: 0.3px;
 }
 
-.polaroid-meta-caption {
-  margin-top: 14px;
-  text-align: center;
-}
-
-.polaroid-meta-caption h4 {
+.tile-title {
   font-family: var(--font-serif);
-  font-size: 1.02rem;
-  color: var(--rose-900);
-  margin-bottom: 3px;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #3b0f1d;
+  margin: 2px 0 5px;
+  line-height: 1.3;
 }
 
-.polaroid-meta-caption p {
-  font-size: 0.8rem;
-  color: #7a4655;
-  line-height: 1.35;
+.tile-subtitle {
+  font-family: var(--font-editorial);
+  font-size: 1.02rem;
+  font-style: italic;
+  color: #6e4052;
+  line-height: 1.4;
+  margin: 0;
 }
 
 /* Special Video Moment Wrapper */
@@ -1483,78 +1525,120 @@
   }
 
   .parchment-document {
-    padding: 44px 32px;
+    padding: 46px 30px 36px;
   }
 
   .envelope-main-title {
-    font-size: clamp(2.4rem, 8vw, 3.6rem);
+    font-size: clamp(2.3rem, 7.5vw, 3.4rem);
+  }
+
+  .gallery-masonry {
+    column-count: 2;
+    column-gap: 14px;
   }
 }
 
 /* Standard Mobile Devices (max-width: 600px) */
 @media (max-width: 600px) {
   .romantic-app-root {
-    padding: 70px 12px 25px;
+    padding: 68px 10px 24px;
+    overflow-x: hidden;
   }
 
-  /* Music Controller Mobile Optimization */
+  /* --- Music Controller Mobile Optimization --- */
   .music-player-widget {
-    top: 12px;
-    right: 12px;
+    top: 10px;
+    right: 10px;
+    z-index: 120;
   }
 
   .music-player-inner {
-    padding: 6px 14px 6px 8px;
-    gap: 8px;
+    padding: 5px 10px 5px 6px;
+    gap: 7px;
+    border-radius: 25px;
+    background: rgba(22, 8, 23, 0.94);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
   }
 
   .music-play-btn {
     width: 32px;
     height: 32px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .music-track-info {
+    gap: 6px;
+  }
+
+  .music-equalizer {
+    height: 14px;
+    width: 15px;
+    gap: 2px;
   }
 
   .track-title {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .track-status {
-    font-size: 0.64rem;
+    display: none; /* Hide subtitle to keep player sleek and unobtrusive */
+  }
+
+  .music-volume-group {
+    padding-left: 4px;
+    gap: 2px;
+  }
+
+  .music-mute-btn {
+    font-size: 0.8rem;
+    padding: 2px;
   }
 
   .volume-slider-wrapper {
-    display: none; /* Hide slider by default on small mobile to save space */
+    display: none !important; /* Hide slider by default on mobile */
   }
 
-  /* Envelope Section Mobile */
+  /* --- Envelope Invitation Mobile --- */
   .envelope-invitation {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    padding: 0 4px;
   }
 
   .sparkle-tag {
-    font-size: 0.74rem;
-    padding: 4px 14px;
+    font-size: 0.72rem;
+    padding: 5px 12px;
     margin-bottom: 10px;
+    max-width: 100%;
+    line-height: 1.35;
+    text-align: center;
   }
 
   .envelope-main-title {
-    font-size: clamp(2.2rem, 10vw, 3rem);
+    font-size: clamp(2rem, 9.5vw, 2.7rem);
     margin-bottom: 6px;
+    line-height: 1.15;
   }
 
   .envelope-sub-text {
-    font-size: 1.05rem;
-    padding: 0 6px;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    padding: 0 8px;
+    max-width: 340px;
+    margin: 0 auto;
   }
 
   .envelope-container {
-    padding: 16px 4px;
+    padding: 14px 0 10px;
   }
 
-  /* Scaled Responsive Envelope (300px) */
+  /* Scaled Responsive Envelope (300px x 195px) */
   .envelope-box {
     width: 300px;
-    height: 200px;
+    height: 195px;
   }
 
   .envelope-flap {
@@ -1567,8 +1651,8 @@
   .envelope-pocket-right {
     border-left-width: 150px;
     border-right-width: 150px;
-    border-top-width: 100px;
-    border-bottom-width: 100px;
+    border-top-width: 98px;
+    border-bottom-width: 98px;
   }
 
   .envelope-pocket-bottom {
@@ -1578,31 +1662,35 @@
   }
 
   .envelope-letter-sneak {
-    left: 20px;
-    right: 20px;
-    height: 90px;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    height: 85px;
+    padding: 10px 14px;
+    gap: 5px;
   }
 
   .wax-seal {
-    top: 98px;
-    width: 52px;
-    height: 52px;
+    top: 96px;
+    width: 50px;
+    height: 50px;
   }
 
   .wax-seal-inner-emboss {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
   }
 
   .seal-emblem {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 
   .envelope-stamp-card {
     top: 10px;
     right: 10px;
     width: 42px;
-    height: 48px;
+    height: 50px;
+    padding: 2px;
   }
 
   .stamp-icon {
@@ -1610,14 +1698,30 @@
   }
 
   .stamp-text {
-    font-size: 0.46rem;
+    font-size: 0.44rem;
   }
 
   .envelope-calligraphy-label {
     bottom: 10px;
-    left: 14px;
-    font-size: 0.75rem;
-    line-height: 1.35;
+    left: 12px;
+    max-width: 165px;
+    font-size: 0.67rem;
+    line-height: 1.3;
+  }
+
+  .label-to,
+  .label-from {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 4px;
+  }
+
+  .label-prefix {
+    font-size: 0.6rem;
+  }
+
+  .sender-note {
+    font-size: 0.65rem;
   }
 
   .open-letter-cta {
@@ -1625,34 +1729,56 @@
     width: 100%;
     max-width: 290px;
     justify-content: center;
-    padding: 12px 22px;
+    padding: 13px 22px;
     font-size: 0.98rem;
   }
 
-  /* Parchment Document on Mobile */
+  /* --- Parchment Document on Mobile --- */
   .parchment-document {
-    padding: 38px 20px 30px;
-    border-radius: 14px;
+    padding: 36px 18px 26px;
+    border-radius: 16px;
+    box-shadow: 
+      inset 0 0 40px rgba(190, 155, 110, 0.15),
+      0 20px 60px rgba(0, 0, 0, 0.7);
+  }
+
+  .parchment-border-frame {
+    inset: 8px;
+    border-radius: 12px;
   }
 
   .filigree-corner {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
-  .filigree-corner.top-left { top: 12px; left: 12px; }
-  .filigree-corner.top-right { top: 12px; right: 12px; }
-  .filigree-corner.bottom-left { bottom: 12px; left: 12px; }
-  .filigree-corner.bottom-right { bottom: 12px; right: 12px; }
+  .filigree-corner.top-left { top: 10px; left: 10px; }
+  .filigree-corner.top-right { top: 10px; right: 10px; }
+  .filigree-corner.bottom-left { bottom: 10px; left: 10px; }
+  .filigree-corner.bottom-right { bottom: 10px; right: 10px; }
 
-  .parchment-border-frame {
-    inset: 10px;
+  .letter-header {
+    margin-bottom: 24px;
+  }
+
+  .letter-botanical-crown {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
   }
 
   .letter-salutation {
-    font-size: clamp(2rem, 8vw, 2.6rem);
+    font-size: clamp(1.65rem, 6.2vw, 2.15rem);
+    line-height: 1.2;
+    word-break: break-word;
   }
 
   .letter-subheading {
-    font-size: 1.15rem;
+    font-size: 1.02rem;
+    line-height: 1.35;
+    margin-top: 6px;
+  }
+
+  .letter-gold-flourish {
+    width: 110px;
+    margin-top: 12px;
   }
 
   .letter-body-content {
@@ -1667,42 +1793,77 @@
     margin-bottom: 18px;
   }
 
-  .letter-quote-container {
-    padding: 16px 18px;
-    margin: 22px 0;
+  .letter-para.lead-para {
+    font-size: 1.06rem;
   }
 
-  .quote-verse {
-    font-size: 1.35rem;
+  .letter-para.lead-para::first-letter {
+    font-size: 2.4rem;
+    line-height: 0.9;
+    padding: 2px 8px 0 0;
+  }
+
+  /* Romantic Poem Mobile */
+  .letter-poem {
+    padding: 20px 14px;
+    margin: 24px 0;
+    border-radius: 12px;
+  }
+
+  .letter-poem .quote-mark {
+    font-size: 1.8rem;
+  }
+  .letter-poem .quote-mark.left { top: 8px; left: 10px; }
+  .letter-poem .quote-mark.right { bottom: 8px; right: 10px; }
+
+  .poem-stanza {
+    margin: 8px 0 14px;
+  }
+
+  .poem-stanza p {
+    font-size: 1.24rem;
+    line-height: 1.5;
   }
 
   .letter-closing-wish {
     font-size: 1.12rem;
-    margin-top: 22px;
+    line-height: 1.6;
+    margin-top: 24px;
+    padding: 0 4px;
   }
 
   /* Letter Footer Mobile */
   .letter-footer-section {
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    margin-top: 28px;
-    padding-top: 20px;
+    gap: 14px;
+    margin-top: 26px;
+    padding-top: 18px;
     text-align: center;
   }
 
   .postmark-seal-circle {
-    width: 62px;
-    height: 62px;
+    width: 58px;
+    height: 58px;
     transform: rotate(0deg);
+  }
+
+  .postmark-icon {
+    font-size: 1.2rem;
   }
 
   .letter-signature-block {
     text-align: center;
   }
 
+  .sig-prelude {
+    font-size: 0.94rem;
+  }
+
   .sig-author {
-    font-size: 1.8rem;
+    font-size: 1.45rem;
+    line-height: 1.35;
+    word-break: break-word;
   }
 
   /* Interactive Action Bar Mobile */
@@ -1710,64 +1871,132 @@
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
-    margin-top: 28px;
-    padding-top: 20px;
+    margin-top: 24px;
+    padding-top: 18px;
+    width: 100%;
   }
 
   .interactive-btn {
     width: 100%;
     justify-content: center;
-    padding: 12px 18px;
-    font-size: 0.92rem;
+    padding: 13px 18px;
+    font-size: 0.94rem;
   }
 
-  /* Photo Gallery Section Mobile */
+  /* --- Photo Gallery Section Mobile --- */
   .photo-gallery-section {
-    padding: 26px 16px;
+    padding: 22px 12px 26px;
     border-radius: 16px;
   }
 
-  .gallery-polaroid-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin-bottom: 28px;
+  .gallery-header {
+    margin-bottom: 20px;
   }
 
-  .polaroid-card {
-    padding: 9px 9px 14px;
+  .gallery-title {
+    font-size: 1.55rem;
   }
 
-  .polaroid-meta-caption h4 {
+  .gallery-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    padding: 0 6px;
+  }
+
+  /* Elegant 2-Column Masonry on Mobile */
+  .gallery-masonry {
+    column-count: 2;
+    column-gap: 10px;
+    margin: 18px 0 24px;
+  }
+
+  .masonry-tile {
+    margin: 0 0 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  }
+
+  .tile-caption-card {
+    padding: 10px 10px 12px;
+  }
+
+  .tile-badge {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+  }
+
+  .tile-title {
     font-size: 0.88rem;
+    line-height: 1.25;
+    margin: 2px 0 3px;
   }
 
-  .polaroid-meta-caption p {
-    font-size: 0.72rem;
+  .tile-subtitle {
+    font-size: 0.74rem;
+    line-height: 1.3;
+  }
+
+  /* Video Moment Mobile */
+  .video-moment-wrapper {
+    width: 100%;
+    gap: 14px;
+    padding-top: 16px;
   }
 
   .romantic-video-toggle-btn {
     width: 100%;
     max-width: 290px;
     justify-content: center;
+    padding: 12px 18px;
     font-size: 0.9rem;
+  }
+
+  .video-player-container {
+    width: 100%;
+  }
+
+  .romantic-video-element {
+    max-height: 250px;
+  }
+
+  .video-caption-label {
+    font-size: 0.82rem;
+    padding: 10px 8px;
   }
 
   /* Lightbox Modal Mobile */
   .lightbox-overlay {
-    padding: 12px;
+    padding: 10px;
   }
 
   .lightbox-dialog {
     max-height: 90vh;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
+    border-radius: 16px;
   }
 
-  .lightbox-details {
-    padding: 18px 20px;
+  .lightbox-image-showcase {
+    max-height: 280px;
+    min-height: 200px;
+    flex-shrink: 0;
   }
 
-  .lightbox-title {
-    font-size: 1.25rem;
+  .lightbox-display-img {
+    max-height: 280px;
+    object-fit: contain;
+    background: #11060d;
+  }
+
+  .lightbox-close-btn {
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
   }
 
   .lightbox-nav-btn {
@@ -1775,13 +2004,53 @@
     height: 36px;
     font-size: 1.3rem;
   }
+  .lightbox-nav-btn.prev { left: 8px; }
+  .lightbox-nav-btn.next { right: 8px; }
+
+  .lightbox-details {
+    padding: 16px 18px 20px;
+  }
+
+  .lightbox-title {
+    font-size: 1.2rem;
+  }
+
+  .lightbox-subtitle {
+    font-size: 0.94rem;
+    margin-bottom: 8px;
+  }
+
+  .lightbox-description {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  /* Footer Mobile */
+  .romantic-footer {
+    padding: 26px 12px 18px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
 }
 
 /* Small SmartPhones (max-width: 380px) */
 @media (max-width: 380px) {
+  .romantic-app-root {
+    padding: 60px 8px 20px;
+  }
+
+  .track-title {
+    max-width: 80px;
+  }
+
+  .music-equalizer {
+    display: none;
+  }
+
+  /* Envelope (260px x 170px) */
   .envelope-box {
     width: 260px;
-    height: 175px;
+    height: 170px;
   }
 
   .envelope-flap {
@@ -1794,8 +2063,8 @@
   .envelope-pocket-right {
     border-left-width: 130px;
     border-right-width: 130px;
-    border-top-width: 88px;
-    border-bottom-width: 88px;
+    border-top-width: 85px;
+    border-bottom-width: 85px;
   }
 
   .envelope-pocket-bottom {
@@ -1804,234 +2073,88 @@
     border-bottom-width: 95px;
   }
 
+  .envelope-letter-sneak {
+    left: 14px;
+    right: 14px;
+    height: 75px;
+  }
+
   .wax-seal {
-    top: 86px;
-    width: 44px;
-    height: 44px;
+    top: 84px;
+    width: 42px;
+    height: 42px;
   }
 
   .wax-seal-inner-emboss {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
   }
 
   .seal-emblem {
-    font-size: 1.1rem;
+    font-size: 1rem;
+  }
+
+  .envelope-stamp-card {
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 44px;
+  }
+
+  .stamp-icon {
+    font-size: 0.95rem;
+  }
+
+  .stamp-text {
+    font-size: 0.4rem;
   }
 
   .envelope-calligraphy-label {
-    font-size: 0.7rem;
-    left: 10px;
     bottom: 8px;
+    left: 8px;
+    max-width: 140px;
+    font-size: 0.6rem;
+    line-height: 1.25;
   }
 
-  .gallery-polaroid-grid {
-    grid-template-columns: 1fr;
-    max-width: 240px;
-    margin: 0 auto 24px;
+  .sender-note {
+    font-size: 0.58rem;
   }
 
   .parchment-document {
-    padding: 30px 14px 24px;
+    padding: 28px 12px 20px;
+    border-radius: 12px;
   }
 
   .letter-salutation {
-    font-size: 1.85rem;
+    font-size: 1.55rem;
+  }
+
+  .poem-stanza p {
+    font-size: 1.1rem;
+    line-height: 1.45;
+  }
+
+  .letter-poem {
+    padding: 16px 10px;
+    margin: 18px 0;
+  }
+
+  .sig-author {
+    font-size: 1.3rem;
   }
 }
 
+/* Ultra-compact SmartPhones (max-width: 330px) */
+@media (max-width: 330px) {
+  .gallery-masonry {
+    column-count: 1;
+    column-gap: 0;
+  }
 
-/* ========================================================
-   ADDITIONS: opened background, poem, masonry gallery
-   ======================================================== */
-.opened-letter-section { position: relative; }
-.opened-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(3px) brightness(0.55) saturate(1.05);
-  transform: scale(1.05);
-  animation: bgFade 1.2s ease forwards;
-  pointer-events: none;
-}
-.opened-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(19, 7, 15, 0.45), rgba(19, 7, 15, 0.7));
-}
-@keyframes bgFade { from { opacity: 0; } to { opacity: 1; } }
-.letter-paper-wrapper { position: relative; z-index: 2; }
-
-.letter-poem {
-  position: relative;
-  background: linear-gradient(135deg, rgba(255, 245, 248, 0.95) 0%, rgba(255, 238, 245, 0.8) 100%);
-  border: 2px solid rgba(212, 175, 80, 0.7);
-  border-radius: 14px;
-  padding: 28px 34px;
-  margin: 34px 0;
-  text-align: center;
-  box-shadow: 
-    0 8px 25px rgba(186, 50, 79, 0.12),
-    inset 0 0 20px rgba(255, 220, 130, 0.25);
-}
-.letter-poem .quote-mark {
-  position: absolute;
-  font-size: 2.6rem;
-  color: rgba(212, 175, 80, 0.5);
-  font-family: serif;
-  line-height: 1;
-}
-.letter-poem .quote-mark.left { top: 12px; left: 16px; }
-.letter-poem .quote-mark.right { bottom: 12px; right: 16px; }
-.poem-stanza { margin: 12px 0 18px; }
-.poem-stanza p {
-  font-family: var(--font-script);
-  font-size: 1.65rem;
-  line-height: 1.6;
-  color: #741126;
-  font-weight: 600;
-  text-indent: 0;
-  margin: 0;
-}
-
-/* ========================================================
-   7. ART-COLLECTION PHOTO GALLERY (WITH CAPTIONS UNDER PHOTOS)
-   ======================================================== */
-.gallery-masonry {
-  column-count: 3;
-  column-gap: 18px;
-  width: 100%;
-  margin: 32px 0 40px;
-}
-
-.masonry-tile {
-  display: block;
-  width: 100%;
-  margin: 0 0 24px;
-  padding: 0;
-  border-radius: 18px;
-  overflow: hidden;
-  cursor: pointer;
-  break-inside: avoid;
-  background: #ffffff;
-  border: 1.5px solid rgba(223, 194, 126, 0.6);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(214, 74, 105, 0.15);
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-  position: relative;
-  text-align: left;
-}
-
-.masonry-tile:hover {
-  transform: translateY(-10px) scale(1.025);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(235, 140, 175, 0.4);
-  border-color: rgba(255, 215, 120, 1);
-}
-
-.tile-image-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background: #1a0815;
-}
-
-.tile-image-container img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: transform 0.65s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.masonry-tile:hover .tile-image-container img {
-  transform: scale(1.08);
-}
-
-.tile-overlay-hint {
-  position: absolute;
-  inset: 0;
-  background: rgba(30, 10, 22, 0.42);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  backdrop-filter: blur(2px);
-  transition: opacity 0.3s ease;
-}
-
-.masonry-tile:hover .tile-overlay-hint {
-  opacity: 1;
-}
-
-.hint-pill {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  color: #78172c;
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  transform: translateY(6px);
-  transition: transform 0.3s ease;
-}
-
-.masonry-tile:hover .hint-pill {
-  transform: translateY(0);
-}
-
-/* Captions directly under every single photo */
-.tile-caption-card {
-  padding: 16px 18px 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #faf4ea 100%);
-  border-top: 1.5px solid rgba(223, 194, 126, 0.4);
-}
-
-.tile-badge {
-  display: inline-block;
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: #8c1933;
-  background: #fcecf2;
-  border: 1px solid #f3cbdb;
-  padding: 3px 11px;
-  border-radius: 14px;
-  margin-bottom: 6px;
-  letter-spacing: 0.3px;
-}
-
-.tile-title {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #3b0f1d;
-  margin: 2px 0 5px;
-  line-height: 1.3;
-}
-
-.tile-subtitle {
-  font-family: var(--font-editorial);
-  font-size: 1.02rem;
-  font-style: italic;
-  color: #6e4052;
-  line-height: 1.4;
-  margin: 0;
-}
-
-.lightbox-counter {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-}
-
-@media (max-width: 900px) {
-  .gallery-masonry { column-count: 2; column-gap: 14px; }
-}
-@media (max-width: 580px) {
-  .gallery-masonry { column-count: 1; margin: 20px 0; }
-  .tile-title { font-size: 1.05rem; }
-  .tile-subtitle { font-size: 0.9rem; }
-  .poem-stanza p { font-size: 1.25rem; }
-  .letter-poem { padding: 18px 16px; }
+  .masonry-tile {
+    max-width: 260px;
+    margin: 0 auto 16px;
+  }
 }
 
